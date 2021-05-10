@@ -12,4 +12,4 @@ resources:
   # Tooling Namespaces
   - sealed-secrets-app.yaml
   # Pet Clinic Namespaces
-  - contoso-prod-app.yaml
+  - petclinic-prod-app.yaml

@@ -12,7 +12,7 @@ spec:
   project: namespaces
   source:
     path: overlays/non-prod/01-namespaces/cicd-tools
-    repoURL: https://github.com/pittar-sandbox/dotnet-contoso-gitops-developers.git
+    repoURL: https://github.com/pittar-sandbox/dotnet-contoso-gitops-admins.git
     targetRevision: main
   syncPolicy:
     automated:

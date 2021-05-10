@@ -1,19 +1,18 @@
 kind: Application
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: petclinic-prod-ns
+  name: instance-argocd
   labels:
-    app: contoso
-    env: prod
-    group: namespace
+    app: argocd
+    group: operator-instances
 spec:
   destination:
     namespace: openshift-gitops
     server: https://kubernetes.default.svc
-  project: namespaces
+  project: operator-instances
   source:
-    path: overlays/non-prod/01-namespaces/contoso-prod
-    repoURL: https://github.com/pittar-sandbox/dotnet-contoso-gitops-admins.git
+    path: gitops/01-cluster-admin/overlays/prod/02-operators/argocd
+    repoURL: https://github.com/pittar-sandbox/openshift-gitops.git
     targetRevision: main
   syncPolicy:
     automated:
