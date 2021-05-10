@@ -27,14 +27,14 @@ spec:
         deploymentconfig: contoso
     spec:
       containers:
-      - image: quay.io/pittar/contoso:latest
-        imagePullPolicy: Always
-        name: contoso
-        ports:
-        - containerPort: 8080
-          protocol: TCP
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
+        - image: quay.io/pittar/contoso:latest
+          imagePullPolicy: Always
+          name: contoso
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
