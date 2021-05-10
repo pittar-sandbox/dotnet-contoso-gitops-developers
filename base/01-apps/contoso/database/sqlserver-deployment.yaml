@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: sqlserver
-    app.kubernetes.io/component: sqlserver
+    app.kubernetes.io/component: contoso-db
     app.kubernetes.io/instance: sqlserver
     app.kubernetes.io/part-of: contoso-app
     app.openshift.io/runtime: mssql
