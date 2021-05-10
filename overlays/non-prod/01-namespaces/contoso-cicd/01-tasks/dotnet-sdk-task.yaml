@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: dotnet-cli
+spec:
+  workspaces:
+    - name: source
+  params:
+    - default:
+        - version
+      description: dotnet commands to run
+      name: COMMANDS
+      type: array
+    - default: "Migration"
+      description: ASPNETCORE Environment
+      name: ASPNETCORE_ENVIRONMENT
+      type: string
+  steps:
+    - name: dotnet-cli
+      image: quay.io/pittar/dotnet-50-ef-ubi8:latest
+      args:
+        - $(params.COMMANDS)
+      command:
+        - /usr/bin/dotnet
+      resources: {}
+      workingDir: $(workspaces.source.path)
+      env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: $(params.ASPNETCORE_ENVIRONMENT)

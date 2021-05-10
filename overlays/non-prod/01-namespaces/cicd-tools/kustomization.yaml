@@ -3,8 +3,7 @@ kind: Kustomization
 
 namespace: cicd-tools
 
+# Deploy pre-configured SonarQube and Nexus from Red Hat Canada demo catalog.
 bases:
-  - ../../../../base/03-rbac/openshift-gitops
-
-resources:
-  - namespace.yaml
+  - github.com/redhat-canada-gitops/catalog/nexus2/base?ref=master
+  - github.com/redhat-canada-gitops/catalog/sonarqube8/overlays/plugins?ref=master

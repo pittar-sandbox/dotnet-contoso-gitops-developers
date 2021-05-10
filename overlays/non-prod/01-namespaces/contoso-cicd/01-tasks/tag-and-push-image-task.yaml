@@ -1,0 +1,28 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: tag-and-push-image
+spec:
+  params:
+  - name: src-image
+    type: string
+  - name: dest-image
+    type: string
+  - name: dest-tags
+    type: string
+    default: ""
+  steps:
+    - name: run-commands
+      image: quay.io/skopeo/stable:latest
+      script: |
+        #!/usr/bin/env bash
+
+        if [ "$(params.dest-tags)" != "" ];
+        then
+          tags=$(params.dest-tags)
+          for i in ${tags//,/ }
+          do
+            echo "Copying image docker://$(params.src-image) to docker://$(params.dest-image):$i"
+            skopeo copy --src-tls-verify=false --dest-tls-verify=false docker://$(params.src-image) docker://$(params.dest-image):$i
+          done
+        fi

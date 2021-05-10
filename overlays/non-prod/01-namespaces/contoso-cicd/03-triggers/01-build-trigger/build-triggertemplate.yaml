@@ -1,0 +1,43 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: build-triggertemplate
+spec:
+  params:
+    - name: git-repo-url
+      description: "The git repository url"
+    - name: git-revision
+      description: "The git revision"
+      default: master
+    - name: git-repo-name
+      description: "The name of the deployment to be created / patched"
+
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        annotations:
+          argocd.argoproj.io/compare-options: IgnoreExtraneous
+          argocd.argoproj.io/sync-options: Prune=false
+        generateName: contoso-devops-pipeline-run-
+      spec:
+        serviceAccountName: pipeline
+        pipelineRef:
+          name: contoso-devops-pipeline
+        params:
+          - name: app-name
+            value: contoso
+          - name: git-url
+            value: $(tt.params.git-repo-url)
+          - name: git-revision
+            value: $(tt.params.git-revision)
+        workspaces:
+          - name: shared-workspace
+            persistentVolumeClaim:
+              claimName: build-workspace
+          - name: gitops-source
+            persistentVolumeClaim:
+              claimName: gitops-workspace
+          - name: maven-settings-cm
+            configMap:
+              name: maven-settings-cm

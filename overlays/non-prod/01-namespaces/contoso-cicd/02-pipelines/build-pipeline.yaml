@@ -1,0 +1,73 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: contoso-devops-pipeline
+spec:
+  workspaces:
+    - name: shared-workspace
+  params:
+    - name: app-name
+      type: string
+      description: name of the deployment to be patched
+    - name: git-url
+      type: string
+      description: url of the git repo for the code of deployment
+    - name: git-revision
+      type: string
+      description: revision to be used from repo of the code for deployment
+      default: "main"
+  tasks:
+    - name: clone-source
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: url
+          value: $(params.git-url)
+        - name: subdirectory
+          value: ""
+        - name: deleteExisting
+          value: "true"
+        - name: revision
+          value: $(params.git-revision)
+    - name: build-app
+      taskRef:
+        name: dotnet-cli
+        kind: Task
+      runAfter:
+        - clone-source
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: COMMANDS
+          value: ["publish","-c","Release", "--source", "http://nexus.cicd.svc.cluster.local:8081/service/local/nuget/nuget-gallery"]
+    - name: build-image
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+        - name: IMAGE
+          value: quay.io/pittar/contoso:latest
+        - name: DOCKERFILE
+          value: ./Containerfile
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      runAfter:
+        - build-app
+    - name: run-database-migrations
+      taskRef:
+        name: dotnet-cli
+        kind: Task
+      runAfter:
+        - build-image
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: COMMANDS
+          value: ["ef","database","update"]

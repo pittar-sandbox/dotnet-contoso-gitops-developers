@@ -1,7 +1,7 @@
 kind: Application
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: petclinic-test-ns
+  name: contoso-test-ns
   labels:
     app: contoso
     env: test
@@ -13,7 +13,7 @@ spec:
   project: namespaces
   source:
     path: overlays/non-prod/01-namespaces/contoso-test
-    repoURL: https://github.com/pittar-sandbox/dotnet-contoso-gitops-admins.git
+    repoURL: https://github.com/pittar-sandbox/dotnet-contoso-gitops-developers.git
     targetRevision: main
   syncPolicy:
     automated:
