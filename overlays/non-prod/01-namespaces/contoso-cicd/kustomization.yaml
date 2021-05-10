@@ -7,7 +7,7 @@ bases:
   - 01-tasks
   - 02-pipelines
   - 03-triggers
-  - 04-secrets
+#  - 04-secrets
 
 resources:
   - pipeline-serviceaccount.yaml
