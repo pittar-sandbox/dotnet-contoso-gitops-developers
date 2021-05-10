@@ -3,9 +3,9 @@ kind: Deployment
 metadata:
   labels:
     app: contoso
-    app.kubernetes.io/component: contoso
+    app.kubernetes.io/component: contoso-app
     app.kubernetes.io/instance: contoso
-    app.kubernetes.io/part-of: contoso
+    app.kubernetes.io/part-of: contoso-app
     app.openshift.io/runtime-namespace: dotnet
   name: contoso
 spec:

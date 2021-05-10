@@ -5,7 +5,7 @@ metadata:
     app: sqlserver
     app.kubernetes.io/component: sqlserver
     app.kubernetes.io/instance: sqlserver
-    app.kubernetes.io/part-of: simpleproject-products-api-app
+    app.kubernetes.io/part-of: contoso-app
     app.openshift.io/runtime: mssql
   name: sqlserver
   namespace: sqlserver

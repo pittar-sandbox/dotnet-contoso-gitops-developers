@@ -5,14 +5,11 @@ metadata:
     app: sqlserver
     app.kubernetes.io/component: sqlserver
     app.kubernetes.io/instance: sqlserver
-    app.kubernetes.io/part-of: simpleproject-products-api-app
+    app.kubernetes.io/part-of: contoso-app
     app.openshift.io/runtime-version: 2019-latest
   name: sqlserver
   namespace: sqlserver
 spec:
-  clusterIP: 172.30.83.18
-  clusterIPs:
-  - 172.30.83.18
   ports:
   - name: 1433-tcp
     port: 1433
