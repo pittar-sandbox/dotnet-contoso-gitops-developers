@@ -1,14 +1,14 @@
 kind: Application
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: contoso-dev-ns
+  name: contoso-dev
   labels:
     app: contoso
     env: dev
     group: namespace
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: contoso-dev
     server: https://kubernetes.default.svc
   project: namespaces
   source:

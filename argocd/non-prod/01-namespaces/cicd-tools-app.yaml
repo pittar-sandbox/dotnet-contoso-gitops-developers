@@ -1,13 +1,13 @@
 kind: Application
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: cicd-tools-ns
+  name: cicd-tools
   labels:
     app: cicd
     group: namespace
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: cicd-tools
     server: https://kubernetes.default.svc
   project: namespaces
   source:
