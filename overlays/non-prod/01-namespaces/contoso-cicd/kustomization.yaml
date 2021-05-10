@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: petclinic-cicd
+
+bases:
+  - ../../../../base/03-rbac/openshift-gitops
+
+resources:
+  - namespace.yaml
+  - pipeline-serviceaccount.yaml
+  - quay-creds-secret-sealedsecret.json
+  - github-creds-secret-sealedsecret.json
