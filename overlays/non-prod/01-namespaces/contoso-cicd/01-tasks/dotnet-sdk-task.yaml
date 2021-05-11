@@ -15,10 +15,6 @@ spec:
       description: ASPNETCORE Environment
       name: ASPNETCORE_ENVIRONMENT
       type: string
-    - default: "Migration"
-      description: ASPNETCORE Environment
-      name: ASPNETCORE_ENVIRONMENT
-      type: string
   steps:
     - name: dotnet-cli
       image: quay.io/pittar/dotnet-50-ef-ubi8:latest
