@@ -184,7 +184,7 @@ spec:
             cat ~/.gitconfig
             git config --global user.email "pipeline@redhat.com"
             git add -u
-            git commit -m 'Pushing image quay.io/pittar/contoso:$tag to production'
+            git commit -m "Pushing image quay.io/pittar/contoso:$tag to production"
             git push origin push-$tag
     - name: prod-pr-deploy
       taskRef:
