@@ -59,15 +59,26 @@ spec:
           workspace: shared-workspace
       runAfter:
         - build-app
-    - name: run-database-migrations
+    - name: rollout-dev
       taskRef:
-        name: dotnet-cli
+        name: rollout-restart
         kind: Task
       runAfter:
         - build-image
-      workspaces:
-        - name: source
-          workspace: shared-workspace
       params:
-        - name: COMMANDS
-          value: ["ef","database","update"]
+        - name: APP_NAME
+          value: "$(params.app-name)"
+        - name: NAMESPACE
+          value: "contoso-dev"
+    # - name: run-database-migrations
+    #   taskRef:
+    #     name: dotnet-cli
+    #     kind: Task
+    #   runAfter:
+    #     - build-image
+    #   workspaces:
+    #     - name: source
+    #       workspace: shared-workspace
+    #   params:
+    #     - name: COMMANDS
+    #       value: ["ef","database","update"]
