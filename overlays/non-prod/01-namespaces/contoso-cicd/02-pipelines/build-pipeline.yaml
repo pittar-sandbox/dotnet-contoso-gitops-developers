@@ -59,7 +59,7 @@ spec:
           workspace: shared-workspace
       params:
         - name: COMMANDS
-          value: ["sonarscanner","begin","-k:\"contoso\"", "-d:sonar.host.url=\"http://sonarqube.cicd-tools.svc.cluster.local:9000\""]
+          value: ["sonarscanner","begin","/k:'contoso'","/d:sonar.host.url='http://sonarqube.cicd-tools.svc.cluster.local:9000'"]
     - name: build-app
       taskRef:
         name: dotnet-cli
@@ -83,7 +83,7 @@ spec:
           workspace: shared-workspace
       params:
         - name: COMMANDS
-          value: ["sonarscanner","end","-d:sonar.host.url=\"http://sonarqube.cicd-tools.svc.cluster.local:9000\""]
+          value: ["sonarscanner","end","/d:sonar.host.url='http://sonarqube.cicd-tools.svc.cluster.local:9000'"]
     - name: build-image
       taskRef:
         name: buildah
