@@ -48,18 +48,42 @@ spec:
       workspaces:
         - name: source
           workspace: shared-workspace
-    - name: build-app
+    - name: sonarqube-begin
       taskRef:
         name: dotnet-cli
         kind: Task
       runAfter:
-        - clone-source
+        - generate-id
       workspaces:
         - name: source
           workspace: shared-workspace
       params:
         - name: COMMANDS
-          value: ["publish","-c","Release", "--source", "http://nexus.cicd-tools.svc.cluster.local:8081/service/local/nuget/nuget-gallery"]
+          value: ["sonarscanner","begin","-k:\"contoso\"", "-d:sonar.host.url=\"http://sonarqube.cicd-tools.svc.cluster.local:9000\""]
+    - name: build-app
+      taskRef:
+        name: dotnet-cli
+        kind: Task
+      runAfter:
+        - sonarqube-begin
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: COMMANDS
+          value: ["publish","-c","Release","--source","http://nexus.cicd-tools.svc.cluster.local:8081/service/local/nuget/nuget-gallery"]
+    - name: sonarqube-end
+      taskRef:
+        name: dotnet-cli
+        kind: Task
+      runAfter:
+        - build-app
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: COMMANDS
+          value: ["sonarscanner","end","-d:sonar.host.url=\"http://sonarqube.cicd-tools.svc.cluster.local:9000\""]
     - name: build-image
       taskRef:
         name: buildah
@@ -73,7 +97,7 @@ spec:
         - name: source
           workspace: shared-workspace
       runAfter:
-        - build-app
+        - sonarqube-end
         - generate-id
     - name: tag-dev
       taskRef:
