@@ -1,12 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"sqlserver"}]'
   labels:
     app: contoso
     app.kubernetes.io/component: contoso-app
     app.kubernetes.io/instance: contoso
     app.kubernetes.io/part-of: contoso-app
-    app.openshift.io/runtime-namespace: dotnet
+    app.openshift.io/runtime: dotnet
   name: contoso
 spec:
   progressDeadlineSeconds: 600
