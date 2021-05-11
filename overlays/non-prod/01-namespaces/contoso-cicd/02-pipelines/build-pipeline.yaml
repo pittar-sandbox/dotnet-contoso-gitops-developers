@@ -5,6 +5,7 @@ metadata:
 spec:
   workspaces:
     - name: shared-workspace
+    - name: gitops-source
   params:
     - name: app-name
       type: string
@@ -15,6 +16,12 @@ spec:
     - name: git-revision
       type: string
       description: revision to be used from repo of the code for deployment
+      default: "main"
+    - name: gitops-url
+      type: string
+      default: "https://github.com/pittar-sandbox/dotnet-contoso-gitops-developers.git"
+    - name: gitops-revision
+      type: string
       default: "main"
   tasks:
     - name: clone-source
