@@ -83,7 +83,7 @@ spec:
           workspace: shared-workspace
       params:
         - name: COMMANDS
-          value: ["sonarscanner","end","-d:sonar.host.url=http://sonarqube.cicd-tools.svc.cluster.local:9000"]
+          value: ["sonarscanner","end"]
     - name: build-image
       taskRef:
         name: buildah
