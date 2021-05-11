@@ -17,8 +17,6 @@ spec:
   steps:
     - name: dotnet-cli
       image: quay.io/pittar/dotnet-50-ef-ubi8:latest
-      args:
-        - $(params.COMMANDS)
       script: |
         #!/usr/bin/env sh
 
