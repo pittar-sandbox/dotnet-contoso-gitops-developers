@@ -50,7 +50,7 @@ spec:
           workspace: shared-workspace
     - name: build-app
       taskRef:
-        name: dotnet-build-with-sonar
+        name: dotnet-cli
         kind: Task
       runAfter:
         - clone-source
@@ -60,42 +60,6 @@ spec:
       params:
         - name: APP_NAME
           value: $(params.app-name)
-    # - name: sonarqube-begin
-    #   taskRef:
-    #     name: dotnet-cli
-    #     kind: Task
-    #   runAfter:
-    #     - generate-id
-    #   workspaces:
-    #     - name: source
-    #       workspace: shared-workspace
-    #   params:
-    #     - name: COMMANDS
-    #       value: ["sonarscanner","begin","-k:contoso","-d:sonar.host.url=http://sonarqube.cicd-tools.svc.cluster.local:9000"]
-    # - name: build-app
-    #   taskRef:
-    #     name: dotnet-cli
-    #     kind: Task
-    #   runAfter:
-    #     - sonarqube-begin
-    #   workspaces:
-    #     - name: source
-    #       workspace: shared-workspace
-    #   params:
-    #     - name: COMMANDS
-    #       value: ["publish","-c","Release","--source","http://nexus.cicd-tools.svc.cluster.local:8081/service/local/nuget/nuget-gallery"]
-    # - name: sonarqube-end
-    #   taskRef:
-    #     name: dotnet-cli
-    #     kind: Task
-    #   runAfter:
-    #     - build-app
-    #   workspaces:
-    #     - name: source
-    #       workspace: shared-workspace
-    #   params:
-    #     - name: COMMANDS
-    #       value: ["sonarscanner","end"]
     - name: build-image
       taskRef:
         name: buildah
