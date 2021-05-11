@@ -1,0 +1,35 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: dotnet-build-with-sonar
+spec:
+  workspaces:
+    - name: source
+  params:
+    - default: "contoso"
+      description: App name.
+      name: APP_NAME
+      type: string
+    - default: "Migration"
+      description: ASPNETCORE Environment
+      name: ASPNETCORE_ENVIRONMENT
+      type: string
+  steps:
+    - name: dotnet-cli
+      image: quay.io/pittar/dotnet-50-ef-ubi8:latest
+      args:
+        - $(params.COMMANDS)
+      script: |
+        #!/usr/bin/env sh
+
+        dotnet sonarscanner begin -k:$(params.APP_NAME) -d:sonar.host.url=http://sonarqube.cicd-tools.svc.cluster.local:9000
+
+        dotnet publish -c Release --source http://nexus.cicd-tools.svc.cluster.local:8081/service/local/nuget/nuget-gallery
+
+        dotnet sonarscanner end
+
+      resources: {}
+      workingDir: $(workspaces.source.path)
+      env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: $(params.ASPNETCORE_ENVIRONMENT)

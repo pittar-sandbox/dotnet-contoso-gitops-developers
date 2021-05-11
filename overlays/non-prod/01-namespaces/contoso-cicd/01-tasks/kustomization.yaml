@@ -11,5 +11,6 @@ resources:
   - tag-and-push-image-task.yaml
   - generate-id-task.yaml
   - dotnet-sdk-task.yaml
+  - dontnet-sdk-sonar-task.yaml
   - kustomize-task.yaml
 
