@@ -116,6 +116,89 @@ spec:
           value: "$(params.app-name)"
         - name: NAMESPACE
           value: "contoso-test"
+    - name: clone-gitops-repo
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      runAfter:
+        - rollout-test
+      workspaces:
+        - name: output
+          workspace: gitops-source
+      params:
+        - name: url
+          value: "$(params.gitops-url)"
+        - name: revision
+          value: "$(params.gitops-revision)"
+        - name: deleteExisting
+          value: "true"
+    - name: branch
+      taskRef:
+        name: git
+      runAfter:
+        - clone-gitops-repo
+      workspaces:
+        - name: source
+          workspace: gitops-source
+      params:
+        - name: commands
+          value: |
+            git checkout -b push-$(tasks.generate-id.results.short-commit)-$(tasks.generate-id.results.build-uid)
+    - name: patch-prod
+      taskRef:
+        name: kustomize
+      params:
+        - name: old-image
+          value: contoso
+        - name: new-image
+          value: "quay.io/pittar/contoso"
+        - name: new-tag
+          value: "$(tasks.generate-id.results.short-commit)-$(tasks.generate-id.results.build-uid)"
+        - name: overlaypath
+          value: "overlays/prod/01-namespaces/contoso-prod"
+      runAfter:
+        - branch
+      workspaces:
+        - name: source
+          workspace: gitops-source
+    - name: commit
+      taskRef:
+        name: git
+      runAfter:
+        - patch-prod
+      workspaces:
+        - name: source
+          workspace: gitops-source
+      params:
+        - name: commands
+          value: |
+            tag="$(tasks.generate-id.results.short-commit)-$(tasks.generate-id.results.build-uid)"
+            git status
+            cat ~/.gitconfig
+            git config --global user.email "pipeline@redhat.com"
+            git add -u
+            git commit -m 'Pushing image quay.io/pittar/contoso:$tag to production'
+            git push origin push-$tag
+    - name: prod-pr-deploy
+      taskRef:
+        name: task-create-pr
+        kind: Task
+      runAfter:
+        - commit
+      workspaces:
+        - name: source
+          workspace: gitops-source
+      params:
+        - name: title
+          value: Update image to $(tasks.generate-id.results.short-commit)-$(tasks.generate-id.results.build-uid)
+        - name: github-secret
+          value: github-creds-secret
+        - name: body
+          value: |-
+            Please review the following and accept this PR to rollout to PROD.
+
+            Review any security issues with this image here: https://quay.io/pittar/contoso:$(tasks.generate-id.results.short-commit)-$(tasks.generate-id.results.build-uid)
+
     # - name: run-database-migrations
     #   taskRef:
     #     name: dotnet-cli
