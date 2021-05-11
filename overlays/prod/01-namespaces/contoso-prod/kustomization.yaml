@@ -5,7 +5,7 @@ namespace: contoso-prod
 
 
 images:
-- name: contoso
+- name: quay.io/pittar/contoso
   newName: quay.io/pittar/contoso
   newTag: 135d1ea-27258946
 resources:
