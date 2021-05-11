@@ -33,6 +33,14 @@ spec:
           value: "true"
         - name: revision
           value: $(params.git-revision)
+    - name: generate-id
+      taskRef:
+        name: generate-id
+      runAfter:
+        - clone-source
+      workspaces:
+        - name: source
+          workspace: shared-workspace
     - name: build-app
       taskRef:
         name: dotnet-cli
@@ -59,6 +67,20 @@ spec:
           workspace: shared-workspace
       runAfter:
         - build-app
+        - generate-id
+    - name: tag-dev
+      taskRef:
+        name: tag-and-push-image
+        kind: Task
+      runAfter:
+        - build-image
+      params:
+        - name: src-image
+          value: "quay.io/pittar/contoso:latest"
+        - name: dest-image
+          value: "quay.io/pittar/contoso"
+        - name: dest-tags
+          value: "$(tasks.generate-id.results.short-commit)-$(tasks.generate-id.results.build-uid),dev"
     - name: rollout-dev
       taskRef:
         name: rollout-restart
