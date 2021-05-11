@@ -44,7 +44,7 @@ spec:
           workspace: shared-workspace
       params:
         - name: COMMANDS
-          value: ["publish","-c","Release", "--source", "http://nexus.cicd.svc.cluster.local:8081/service/local/nuget/nuget-gallery"]
+          value: ["publish","-c","Release", "--source", "http://nexus.cicd-tools.svc.cluster.local:8081/service/local/nuget/nuget-gallery"]
     - name: build-image
       taskRef:
         name: buildah
