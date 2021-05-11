@@ -86,12 +86,36 @@ spec:
         name: rollout-restart
         kind: Task
       runAfter:
-        - build-image
+        - tag-dev
       params:
         - name: APP_NAME
           value: "$(params.app-name)"
         - name: NAMESPACE
           value: "contoso-dev"
+    - name: tag-test
+      taskRef:
+        name: tag-and-push-image
+        kind: Task
+      runAfter:
+        - rollout-dev
+      params:
+        - name: src-image
+          value: "quay.io/pittar/contoso:$(tasks.generate-id.results.short-commit)-$(tasks.generate-id.results.build-uid)"
+        - name: dest-image
+          value: "quay.io/pittar/contoso"
+        - name: dest-tags
+          value: "test"
+    - name: rollout-test
+      taskRef:
+        name: rollout-restart
+        kind: Task
+      runAfter:
+        - tag-test
+      params:
+        - name: APP_NAME
+          value: "$(params.app-name)"
+        - name: NAMESPACE
+          value: "contoso-test"
     # - name: run-database-migrations
     #   taskRef:
     #     name: dotnet-cli
