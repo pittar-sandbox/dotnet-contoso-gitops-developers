@@ -1,10 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-bases:
-  - ../../../../base/01-apps/contoso
 
 images:
-  - name: contoso
-    newName: quay.io/pittar/contoso
-    newTag: latest
+- name: contoso
+  newName: quay.io/pittar/contoso
+  newTag: 02ad998-2925853154
+resources:
+- ../../../../base/01-apps/contoso
