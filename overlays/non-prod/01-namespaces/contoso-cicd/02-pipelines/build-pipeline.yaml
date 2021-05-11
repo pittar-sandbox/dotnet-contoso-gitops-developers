@@ -53,7 +53,7 @@ spec:
         name: dotnet-cli
         kind: Task
       runAfter:
-        - sonarqube-begin
+        - clone-source
       workspaces:
         - name: source
           workspace: shared-workspace
