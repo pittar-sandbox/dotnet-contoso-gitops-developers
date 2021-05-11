@@ -7,6 +7,6 @@ bases:
   - ../../../../base/01-apps/contoso
 
 images:
-  - name: contoso
+  - name: quay.io/pittar/contoso
     newName: quay.io/pittar/contoso
     newTag: test
