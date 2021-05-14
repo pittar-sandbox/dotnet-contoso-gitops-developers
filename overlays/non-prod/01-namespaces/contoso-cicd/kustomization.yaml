@@ -6,8 +6,7 @@ namespace: contoso-cicd
 bases:
   - 01-tasks
   - 02-pipelines
-  - 03-triggers
-#  - 04-secrets
+#  - 03-triggers
 
 resources:
   - pipeline-serviceaccount.yaml
