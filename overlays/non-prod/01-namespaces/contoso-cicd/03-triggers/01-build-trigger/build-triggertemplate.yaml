@@ -38,6 +38,3 @@ spec:
           - name: gitops-source
             persistentVolumeClaim:
               claimName: gitops-workspace
-          - name: maven-settings-cm
-            configMap:
-              name: maven-settings-cm

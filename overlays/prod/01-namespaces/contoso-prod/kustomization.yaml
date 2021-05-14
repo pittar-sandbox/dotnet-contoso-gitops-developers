@@ -3,10 +3,10 @@ kind: Kustomization
 
 namespace: contoso-prod
 
-bases:
-  - ../../../../base/01-apps/contoso
 
 images:
-  - name: contoso
-    newName: quay.io/pittar/contoso
-    newTag: latest
+- name: quay.io/pittar/contoso
+  newName: quay.io/pittar/contoso
+  newTag: 135d1ea-27258946
+resources:
+- ../../../../base/01-apps/contoso
