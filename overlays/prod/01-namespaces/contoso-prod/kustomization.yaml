@@ -7,7 +7,7 @@ namespace: contoso-prod
 images:
 - name: contoso
   newName: quay.io/pittar/contoso
-  newTag: b2b4daf-1133985075
+  newTag: b2b4daf-30801582
 - name: quay.io/pittar/contoso
   newName: quay.io/pittar/contoso
   newTag: 135d1ea-27258946
