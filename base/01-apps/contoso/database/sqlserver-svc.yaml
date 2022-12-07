@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/part-of: contoso-app
     app.openshift.io/runtime-version: 2019-latest
   name: sqlserver
-  namespace: sqlserver
 spec:
   ports:
   - name: 1433-tcp
